@@ -3,8 +3,10 @@ package com.lukaslopes.keyreader.gateways.providers;
 import com.lukaslopes.keyreader.entities.CompanyDocument;
 import com.lukaslopes.keyreader.gateways.repository.CompanyDocumentRepository;
 import com.lukaslopes.keyreader.gateways.repository.converters.CompanyDocumentDataConverter;
+import com.lukaslopes.keyreader.gateways.repository.domain.CompanyDocumentIdData;
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import lombok.AllArgsConstructor;
@@ -22,7 +24,7 @@ public class CompanyDocumentDatabaseProvider {
 
         return companyDocumentRepository.findById(CompanyDocumentDataConverter.toIdData(newCompanyDocument))
                 .map(CompanyDocumentDataConverter::toEntity)
-                .orElse(create(newCompanyDocument));
+                .orElseGet(() -> create(newCompanyDocument));
     }
 
     public CompanyDocument create(final CompanyDocument newCompanyDocument) {
@@ -35,11 +37,21 @@ public class CompanyDocumentDatabaseProvider {
                                 .build())));
     }
 
-    public List<CompanyDocument> findByDocumentKey(final String documentKey){
-        return companyDocumentRepository.findByDocumentKey(documentKey)
-                .stream()
-                .map(CompanyDocumentDataConverter::toEntity)
-                .collect(Collectors.toList());
+    public CompanyDocument update(final CompanyDocument companyDocument) {
+        final Instant now = Instant.now();
+        return CompanyDocumentDataConverter.toEntity(
+                companyDocumentRepository.save(CompanyDocumentDataConverter
+                        .toData(companyDocument.toBuilder()
+                                .updateDate(now)
+                                .build())));
+    }
+
+    public Optional<CompanyDocument> findByCompanyAndDocumentKey(final String documentKey, final Integer companyId){
+        return companyDocumentRepository.findById(CompanyDocumentIdData.builder()
+                        .companyId(companyId)
+                        .documentKey(documentKey)
+                        .build())
+                .map(CompanyDocumentDataConverter::toEntity);
     }
 
     public List<CompanyDocument> findAll(){

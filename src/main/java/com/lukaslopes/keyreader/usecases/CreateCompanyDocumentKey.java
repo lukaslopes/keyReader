@@ -14,7 +14,7 @@ public class CreateCompanyDocumentKey {
     private CompanyDocumentDatabaseProvider companyDocumentDatabaseProvider;
 
     public CompanyDocument execute(final Integer companyId, final String documentKey) {
-        log.info("Creating new company document");
+        //log.info("Creating new company document");
 
         // Os documentos a principio não são válidos, serão validados pela api
         // Para não sobrescrever os dados já existentes, o provider verificará se já existe o documento

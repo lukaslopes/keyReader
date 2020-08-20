@@ -1,13 +1,12 @@
 package com.lukaslopes.keyreader.usecases;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 import com.lukaslopes.keyreader.entities.CompanyDocument;
 import com.lukaslopes.keyreader.gateways.providers.CompanyDocumentDatabaseProvider;
+import com.lukaslopes.keyreader.gateways.providers.CompanyDocumentDatabaseProviderTest;
 import com.lukaslopes.keyreader.mocks.CompanyDocumentMock;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

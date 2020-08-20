@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -25,7 +26,9 @@ public class KeyReader {
     @Autowired
     private KeyReaderProperties keyReaderProperties;
 
+    @Scheduled(cron = "0 */3 * ? * *")
     public void readFiles() {
+        // cron job configurado para executar de 3 em 3 minutos
 
         try {
             readFilesInDirectory();
